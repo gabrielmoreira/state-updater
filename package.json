@@ -17,6 +17,10 @@
     "build": "npm run build:umd && npm run build:umd:min",
     "prepublish": "npm run clean && npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabrielmoreira/state-updater.git"
+  },
   "keywords": [
     "state",
     "updater",
