@@ -1,6 +1,6 @@
 {
   "name": "state-updater",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "State updater",
   "main": "src/updater.js",
   "files": [
