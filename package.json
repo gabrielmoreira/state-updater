@@ -1,0 +1,35 @@
+{
+  "name": "state-updater",
+  "version": "1.0.0",
+  "description": "State updater",
+  "main": "src/updater.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "test": "cross-env mocha --recursive",
+    "test:watch": "npm test -- --watch",
+    "test:cov": "cross-env node $(npm bin)/isparta cover $(npm bin)/_mocha -- --recursive",
+    "build:umd": "cross-env NODE_ENV=development webpack src/updater.js dist/state-updater.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/updater.js dist/state-updater.min.js",
+    "build": "npm run build:umd && npm run build:umd:min",
+    "prepublish": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "state",
+    "updater",
+    "selector"
+  ],
+  "author": "Gabriel Moreira <gabrielmoreira+npm@gmail.com> (https://github.com/gabrielmoreira)",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "cross-env": "^2.0.0",
+    "isparta": "^4.0.0",
+    "mocha": "^2.5.3",
+    "rimraf": "^2.5.4",
+    "webpack": "^1.13.1"
+  }
+}

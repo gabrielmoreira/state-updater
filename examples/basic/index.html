@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="https://npmcdn.com/jquery@3.1.0/dist/jquery.min.js"></script>
+    <script src="../../dist/state-updater.js"></script>
+    <script>
+      // sample animation...
+      var raf = window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+            window.setTimeout(callback, 1000 / 1);
+        };
+      </script>
+  </head>
+
+  <body>
+      <h1>Hello, <span data-attr="name"></span>!</h1>
+      <h3><span data-attr="elapsed"></span> elapsed!</h1>
+
+    <script>
+      var Store = {
+        user: {
+          name: 'Gabriel'
+        },
+        timer: {
+          start: new Date().getTime(),
+        },
+        loop: {
+          skippedFrames: 0
+        }
+      };
+
+      var updater = StateUpdater({
+        'name': 'user.name',
+        'elapsed': {
+          select: 'timer.start',
+          value: function(start) {
+            return Math.floor((new Date().getTime() - start) / 1000);
+          }
+        }
+      });
+
+      // render data to DOM...
+      function dataRender(state) {
+        $('[data-attr]').each(function() {
+          var $el = $(this);
+          var attribute = $el.data('attr');
+          $el.text(state[attribute]);
+        });
+      }
+
+      // animation frame loop...
+      var renderState = {};
+      function loop() {
+        // update renderState from Store...
+        // and continue if renderState was changed...
+        if (updater.update(Store, renderState)) {
+          dataRender(renderState);
+          console.log('Skipped frames', Store.loop.skippedFrames);
+        } else {
+          Store.loop.skippedFrames++;
+        }
+        raf(loop);
+      }
+
+      loop();
+    </script>
+  </body>
+
+</html>
